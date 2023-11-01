@@ -1,0 +1,23 @@
+import numpy as np
+import tensorflow as tf
+import matplotlib.pyplot as plt
+
+# Define a range of input values
+x_pre = tf.linspace(-1., 1., 100)
+x_actual = tf.constant(0, dtype=tf.float32)
+
+# Calculate L1 and L2 losses for the range of input values
+l1_loss = tf.abs(x_pre - x_actual)
+l2_loss = tf.square(x_pre - x_actual)
+
+# Convert to NumPy arrays for plotting
+x_, l1_, l2_ = x_pre.numpy(), l1_loss.numpy(), l2_loss.numpy()
+
+# Plot the L1 and L2 loss values
+plt.plot(x_, l1_, label='L1 Loss')
+plt.plot(x_, l2_, label='L2 Loss')
+plt.legend()
+plt.xlabel('Input Values')
+plt.ylabel('Loss')
+plt.title('L1 and L2 Loss')
+plt.show()
