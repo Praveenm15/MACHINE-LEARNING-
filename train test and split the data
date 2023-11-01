@@ -1,3 +1,29 @@
 import numpy as nm
 import pandas as pd
 import matplotlib.pyplot as mtp
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+df = pd.read_csv('salary_Data.csv')
+X = df.iloc[:, :-1].values
+y = df.iloc[:, -1].values
+
+X_train, X_test, y_train, y_test = train_test_split(
+	X, y, test_size=1/3, random_state=0)
+slope = regressor.coef_[0]
+intercept = regressor.intercept_
+print("Slope (Coefficient):", slope)
+print("Intercept:", intercept)
+regressor= LinearRegression()
+regressor.fit(X_train, y_train)
+y_pred= regressor.predict(X_test)
+X_pred= regressor.predict(X_train)
+mtp.scatter(X_train, y_train, color='green')
+mtp.plot(X_train, X_pred, color='red')
+mtp.title("salary vs experience(training data set)")
+mtp.xlabel("years of experience")
+mtp.ylabel("Salary in rupees")
+mtp.show()
+predictions = regressor.predict(X_test)
+predictions
+import seaborn as sns
+sns.distplot(predictions-y_test)
