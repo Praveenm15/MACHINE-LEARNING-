@@ -1,0 +1,19 @@
+import numpy as np
+import tensorflow as tf
+import matplotlib.pyplot as plt
+
+tf.compat.v1.disable_eager_execution()
+
+x_pre = tf.linspace(-1., 1., 100)
+x_actual = tf.constant(0.0, dtype=tf.float32)
+
+l1_loss = tf.abs(x_pre - x_actual)
+l2_loss = tf.square(x_pre - x_actual)
+
+with tf.compat.v1.Session() as sess:
+    x_, l1_, l2_ = sess.run([x_pre, l1_loss, l2_loss])
+
+plt.plot(x_, l1_, label='l1_loss')
+plt.plot(x_, l2_, label='l2_loss')
+plt.legend()
+plt.show()
