@@ -1,0 +1,100 @@
+
+import pandas as pd
+import numpy as np
+import os
+import seaborn as sns
+import matplotlib.pyplot as plt
+import get_ipython
+get_ipython().system('pip install -U librosa')
+import librosa
+import librosa.display
+from IPython.display import Audio
+import warnings
+warnings.filterwarnings('ignore')
+paths = []
+labels = []
+for dirname, _, filenames in os.walk(r'C:\Users\ASUS\Desktop\ml project\TESS Toronto emotional speech set data'):
+    for filename in filenames:
+        paths.append(os.path.join(dirname, filename))
+        label = filename.split('_')[-1]
+        label = label.split('.')[0]
+        labels.append(label.lower())
+    if len(paths) == 2800:
+         break
+print('Dataset is Loaded')
+len(paths)
+
+paths[:5]
+labels[:5]
+df = pd.DataFrame()
+df['speech'] = paths
+df['label'] = labels
+df.head()
+df['label'].value_counts()
+sns.countplot(x='label', data=df)
+plt.show()
+def waveplot(data, sr, emotion):
+    plt.figure(figsize=(10,4))
+    plt.title(emotion, size=20)
+    librosa.display.waveshow(data, sr=sr)
+    plt.show()
+        
+def spectogram(data, sr, emotion):
+    x = librosa.stft(data)
+    xdb = librosa.amplitude_to_db(abs(x))
+    plt.figure(figsize=(11,4))
+    plt.title(emotion, size=20)
+    librosa.display.specshow(xdb, sr=sr, x_axis='time', y_axis='hz')
+    plt.colorbar()
+
+emotion = 'fear'
+path = np.array(df['speech'][df['label']==emotion])[0]
+data, sampling_rate = librosa.load(path)
+waveplot(data, sampling_rate, emotion)
+spectogram(data, sampling_rate, emotion)
+Audio(path)
+
+emotion = 'angry'
+path = np.array(df['speech'][df['label']==emotion])[1]
+data, sampling_rate = librosa.load(path)
+waveplot(data, sampling_rate, emotion)
+spectogram(data, sampling_rate, emotion)
+Audio(path)
+
+
+emotion = 'disgust'
+path = np.array(df['speech'][df['label']==emotion])[0]
+data, sampling_rate = librosa.load(path)
+waveplot(data, sampling_rate, emotion)
+spectogram(data, sampling_rate, emotion)
+Audio(path)
+
+emotion = 'neutral'
+path = np.array(df['speech'][df['label']==emotion])[0]
+data, sampling_rate = librosa.load(path)
+waveplot(data, sampling_rate, emotion)
+spectogram(data, sampling_rate, emotion)
+Audio(path)
+
+emotion = 'sad'
+path = np.array(df['speech'][df['label']==emotion])[0]
+data, sampling_rate = librosa.load(path)
+waveplot(data, sampling_rate, emotion)
+spectogram(data, sampling_rate, emotion)
+Audio(path)
+
+emotion = 'ps'
+path = np.array(df['speech'][df['label']==emotion])[0]
+data, sampling_rate = librosa.load(path)
+waveplot(data, sampling_rate, emotion)
+spectogram(data, sampling_rate, emotion)
+Audio(path)
+
+emotion = 'happy'
+path = np.array(df['speech'][df['label']==emotion])[0]
+data, sampling_rate = librosa.load(path)
+waveplot(data, sampling_rate, emotion)
+spectogram(data, sampling_rate, emotion)
+Audio(path)
+
+
