@@ -1,0 +1,64 @@
+#%%
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+#%%
+data = pd.read_csv('/kaggle/input/salary-data/Salary_Data.csv')
+data.head()
+#%%
+x = data['YearsExperience']
+y = data['Salary']
+plt.scatter(x,y)
+#%%
+p = np.polyfit(x,y,2)
+f = np.poly1d(p)
+print (f)
+#%%
+x_new = np.arange(min(x),max(x))
+y_model = f(x_new)
+plt.scatter(x,y)
+plt.plot(x_new,y_model,'red')
+#%%
+#Polynomial regression using matrix manipulation
+data = pd.read_csv('/kaggle/input/salary-data/Salary_Data.csv')
+data.head()
+x = data['YearsExperience']
+y = data['Salary']
+n = 2
+A = np.zeros((n+1,n+1))
+b = np.zeros((n+1,1))
+
+for i in range (n+1):
+    print('row',i)
+for j in range (n+1):
+    print('column',j)
+print('element', f'sum(x**{i,j}')
+A[i,j] = sum(x**(i+j))
+print('b element', f'sum(x**{i},y)')
+b[i] = sum (x**(i)*y)
+print('A',A)
+print('b',b)
+c = np.dot(np.linalg.pinv(A),b)
+c = np.flip (c)
+print('c',c)
+c = c.ravel()
+print('c after ravel',c)
+f = np.poly1d(c)
+print(f)
+    
+#%%
+from sklearn.preprocessing import PolynomialFeatures
+poly = PolynomialFeatures(degree=2, include_bias=False)
+poly
+poly_features = poly.fit_transform(x.values.reshape(-1, 1))
+#%%
+#Polynomial regression from sklearn
+from sklearn.linear_model import LinearRegression
+poly_reg_model = LinearRegression()
+poly_reg_model.fit(poly_features, y)
+y_predicted = poly_reg_model.predict(poly_features)
+plt.scatter(x, y)
+plt.plot(x, y_predicted, c="red")
+plt.show()
+n = np.poly1d(y_predicted)
+print(n)
